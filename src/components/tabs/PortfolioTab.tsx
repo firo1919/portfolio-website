@@ -116,10 +116,11 @@ export default function PortfolioTab() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[10px] text-text-muted hover:text-mint-light flex items-center gap-1 font-semibold uppercase tracking-wider w-fit"
+                onClick={(e) => e.stopPropagation()}
+                className="text-xs text-mint-light hover:text-mint-primary flex items-center gap-1.5 font-semibold hover:underline underline-offset-2 transition-all duration-200 w-fit"
               >
-                <span>URL : {project.url.replace("https://", "")}</span>
-                <ExternalLink size={10} />
+                <ExternalLink size={12} />
+                <span>{project.url.replace("https://", "")}</span>
               </a>
               <h3 className="text-lg font-bold text-text-heading group-hover:text-mint-light transition-colors duration-300 font-heading">
                 {project.title}

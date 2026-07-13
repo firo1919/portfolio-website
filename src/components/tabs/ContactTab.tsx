@@ -54,7 +54,7 @@ export default function ContactTab() {
       mapInstanceRef.current = map;
 
       // Use dark themed map tiles
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
         maxZoom: 19,
       }).addTo(map);
 

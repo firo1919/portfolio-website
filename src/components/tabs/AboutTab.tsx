@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Award, Briefcase, ChevronRight, Code } from "lucide-react";
+import { Award, Briefcase, ChevronRight, Code, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
 interface StatItem {
@@ -141,7 +141,16 @@ export default function AboutTab({ onNavigateToTab }: { onNavigateToTab?: (tab: 
 
               {/* Project Info */}
               <div className="p-5 flex flex-col flex-1 gap-2">
-                <span className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">URL : {project.url.replace("https://", "")}</span>
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-xs text-mint-light hover:text-mint-primary flex items-center gap-1.5 font-semibold hover:underline underline-offset-2 transition-all duration-200 w-fit"
+                >
+                  <ExternalLink size={12} />
+                  <span>{project.url.replace("https://", "")}</span>
+                </a>
                 <h3 className="text-lg font-bold text-text-heading group-hover:text-mint-light transition-colors duration-300 font-heading">
                   {project.title}
                 </h3>

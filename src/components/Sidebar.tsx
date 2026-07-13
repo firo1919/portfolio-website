@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Mail, MapPin, Phone, FileText } from "lucide-react";
 import { useState } from "react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Sidebar() {
   const [imgError, setImgError] = useState(false);
@@ -11,12 +12,17 @@ export default function Sidebar() {
     <aside className="w-full md:w-[300px] flex-shrink-0 bg-glass border-glass rounded-2xl p-6 md:p-8 flex flex-col items-center gap-6 text-center shadow-2xl relative overflow-hidden group hover:border-glass-hover transition-all duration-300">
       {/* Background glow overlay */}
       <div className="absolute -top-24 -left-24 w-48 h-48 bg-mint-primary/10 rounded-full blur-3xl group-hover:bg-mint-primary/15 transition-all duration-500" />
+
+      {/* Theme Toggle — top-left corner */}
+      <div className="absolute top-4 left-4 z-10">
+        <ThemeToggle />
+      </div>
       
       {/* Avatar Container */}
-      <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-xl overflow-hidden border-2 border-mint-primary/20 shadow-lg group-hover:border-mint-primary/40 transition-all duration-300">
+      <div className="relative w-36 h-48 md:w-44 md:h-[235px] flex-shrink-0 rounded-xl overflow-hidden border-2 border-mint-primary/20 shadow-lg group-hover:border-mint-primary/40 transition-all duration-300">
         {!imgError ? (
           <Image
-            src="/assets/avatar.png"
+            src="/assets/profile.jpg"
             alt="Firomsa Assefa Roba"
             fill
             sizes="(max-width: 768px) 144px, 176px"
