@@ -456,7 +456,7 @@ END:VCARD`;
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="flex items-center justify-center gap-2 py-3.5 px-6 rounded-lg bg-linear-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-sm tracking-wide hover:opacity-95 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed transition-all duration-300 mt-2 shadow-[0_0_15px_rgba(16,185,129,0.1)] w-full sm:w-fit sm:self-end"
+                        className="flex items-center justify-center gap-2 py-3.5 px-6 rounded-lg bg-linear-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-sm tracking-wide hover:opacity-95 hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed transition-all duration-300 mt-2 shadow-[0_0_15px_rgba(16,185,129,0.1)] w-full sm:w-fit sm:self-end"
                     >
                         {isSubmitting ? (
                             <span className="w-5 h-5 border-2 border-bg-base border-t-transparent rounded-full animate-spin" />

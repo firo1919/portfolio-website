@@ -165,52 +165,58 @@ export async function POST(request: Request) {
       }
       telegramText += `\n\n💬 *Message:*\n${message}`;
 
-      // Dispatch Telegram alerts asynchronously in the background
-      (async () => {
-        try {
-          console.log("Step 4 (Async): Sending text notification to Telegram...");
-          const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      try {
+        console.log("Step 4: Dispatching alerts to Telegram (waiting for completion in serverless)...");
+        
+        // Start text notification dispatch
+        const textPromise = fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: chatIdsEnv.trim(),
+            text: telegramText,
+            parse_mode: "Markdown",
+          }),
+          cache: "no-store",
+        });
+
+        // Start document dispatch if present
+        let docPromise: Promise<Response | null> = Promise.resolve(null);
+        if (file) {
+          console.log("Step 4: Preparing file attachment for Telegram...");
+          const fileBuffer = Buffer.from(file.content, "base64");
+          const fileBlob = new Blob([fileBuffer], { type: file.type });
+          
+          const formData = new FormData();
+          formData.append("chat_id", chatIdsEnv.trim());
+          formData.append("document", fileBlob, file.name);
+          formData.append("caption", `📎 Attachment from ${name}`);
+
+          docPromise = fetch(`https://api.telegram.org/bot${botToken}/sendDocument`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              chat_id: chatIdsEnv.trim(),
-              text: telegramText,
-              parse_mode: "Markdown",
-            }),
+            body: formData,
             cache: "no-store",
           });
-
-          console.log("Telegram sendMessage status:", tgRes.status);
-          if (!tgRes.ok) {
-            console.error("Telegram sendMessage error:", await tgRes.text());
-          }
-
-          // Send file document if present
-          if (file) {
-            console.log("Step 4 (Async): Sending file attachment to Telegram...");
-            const fileBuffer = Buffer.from(file.content, "base64");
-            const fileBlob = new Blob([fileBuffer], { type: file.type });
-            
-            const formData = new FormData();
-            formData.append("chat_id", chatIdsEnv.trim());
-            formData.append("document", fileBlob, file.name);
-            formData.append("caption", `📎 Attachment from ${name}`);
-
-            const tgDocRes = await fetch(`https://api.telegram.org/bot${botToken}/sendDocument`, {
-              method: "POST",
-              body: formData,
-              cache: "no-store",
-            });
-
-            console.log("Telegram sendDocument status:", tgDocRes.status);
-            if (!tgDocRes.ok) {
-              console.error("Telegram sendDocument error:", await tgDocRes.text());
-            }
-          }
-        } catch (tgErr) {
-          console.error("Telegram background delivery failed:", tgErr);
         }
-      })();
+
+        // Wait for both Telegram operations to complete (essential for serverless environment)
+        const [tgTextRes, tgDocRes] = await Promise.all([textPromise, docPromise]);
+        
+        console.log("Telegram sendMessage status:", tgTextRes.status);
+        if (!tgTextRes.ok) {
+          console.error("Telegram sendMessage error:", await tgTextRes.text());
+        }
+
+        if (tgDocRes) {
+          console.log("Telegram sendDocument status:", tgDocRes.status);
+          if (!tgDocRes.ok) {
+            console.error("Telegram sendDocument error:", await tgDocRes.text());
+          }
+        }
+      } catch (tgErr) {
+        console.error("Telegram delivery failed:", tgErr);
+        // Do not block client response if Telegram fails
+      }
     } else {
       console.log("Telegram delivery skipped (TELEGRAM_CHAT_ID not configured).");
     }
