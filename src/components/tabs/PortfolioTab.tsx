@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Code, ExternalLink, Filter } from "lucide-react";
+import { Code, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ProjectItem {
   id: string;
@@ -45,22 +45,22 @@ export default function PortfolioTab() {
     },
   ];
 
-  const categories: { id: "all" | "web" | "cli" | "tool"; label: string }[] = [
-    { id: "all", label: "All Projects" },
-    { id: "web", label: "Web Applications" },
-    { id: "tool", label: "Developer Tools / APIs" },
-  ];
-
-  const [activeCategory, setActiveCategory] = useState<"all" | "web" | "cli" | "tool">("all");
+  const pageSize = 2;
+  const [currentPage, setCurrentPage] = useState(1);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
 
   const handleImageError = (id: string) => {
     setImgErrors((prev) => ({ ...prev, [id]: true }));
   };
 
-  const filteredProjects = activeCategory === "all"
-    ? projects
-    : projects.filter((project) => project.category === activeCategory);
+  const totalPages = Math.ceil(projects.length / pageSize);
+  const paginatedProjects = projects.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
     <div id="portfolio-panel" role="tabpanel" className="flex flex-col gap-8 animate-fadeIn">
@@ -72,30 +72,9 @@ export default function PortfolioTab() {
         </h1>
       </section>
 
-      {/* Filter Menu */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-mint-primary/10 pb-4">
-        <div className="text-text-muted flex items-center gap-1.5 mr-2 text-xs font-semibold uppercase tracking-wider">
-          <Filter size={14} />
-          <span>Filter:</span>
-        </div>
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => setActiveCategory(cat.id)}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-300 ${
-              activeCategory === cat.id
-                ? "bg-mint-primary/10 text-mint-light border border-mint-primary/20"
-                : "text-text-muted hover:text-text-body border border-transparent"
-            }`}
-          >
-            {cat.label}
-          </button>
-        ))}
-      </div>
-
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filteredProjects.map((project) => (
+        {paginatedProjects.map((project) => (
           <div
             key={project.id}
             className="group rounded-xl overflow-hidden border border-mint-primary/10 hover:border-mint-primary/25 bg-bg-base/20 hover:bg-bg-base/40 transition-all duration-300 flex flex-col shadow-lg"
@@ -152,6 +131,50 @@ export default function PortfolioTab() {
           </div>
         ))}
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-6 pt-4 border-t border-mint-primary/5">
+          {/* Previous Button */}
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            aria-label="Previous Page"
+            className="w-9 h-9 rounded-lg border border-mint-primary/10 flex items-center justify-center text-text-muted hover:text-mint-light hover:border-mint-primary/35 disabled:opacity-30 disabled:hover:text-text-muted disabled:hover:border-mint-primary/10 cursor-pointer disabled:cursor-not-allowed transition-all duration-300 bg-bg-base/20 hover:bg-bg-base/40"
+          >
+            <ChevronLeft size={16} />
+          </button>
+
+          {/* Page Numbers */}
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+            const isCurrent = page === currentPage;
+            return (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                aria-current={isCurrent ? "page" : undefined}
+                className={`w-9 h-9 rounded-lg font-semibold text-xs tracking-wider transition-all duration-300 cursor-pointer ${
+                  isCurrent
+                    ? "bg-mint-primary/10 text-mint-light border border-mint-primary/35 shadow-[0_0_8px_rgba(16,185,129,0.08)]"
+                    : "bg-bg-base/20 hover:bg-bg-base/40 text-text-muted hover:text-text-body border border-mint-primary/5"
+                }`}
+              >
+                {page}
+              </button>
+            );
+          })}
+
+          {/* Next Button */}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            aria-label="Next Page"
+            className="w-9 h-9 rounded-lg border border-mint-primary/10 flex items-center justify-center text-text-muted hover:text-mint-light hover:border-mint-primary/35 disabled:opacity-30 disabled:hover:text-text-muted disabled:hover:border-mint-primary/10 cursor-pointer disabled:cursor-not-allowed transition-all duration-300 bg-bg-base/20 hover:bg-bg-base/40"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
