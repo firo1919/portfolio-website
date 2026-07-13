@@ -21,7 +21,7 @@ export default function PortfolioTab() {
       title: "Inventory Management System",
       description: "A secure, robust warehouse and stock tracking web application. Built scalable REST APIs with Spring Boot and secured endpoints utilizing Spring Security. Created a dynamic Next.js UI, optimized PostgreSQL database queries using Spring Data JPA, containerized components with Docker, and built a CI/CD pipeline.",
       category: "web",
-      image: "/assets/project1.jpg",
+      image: "",
       tags: ["Spring Boot", "Next.js", "PostgreSQL", "Docker", "CI/CD"],
       url: "https://github.com/firo1919/Inventory-Management-System",
     },
@@ -30,7 +30,7 @@ export default function PortfolioTab() {
       title: "RemedyMate Healthcare Platform",
       description: "A comprehensive healthcare platform connecting patients directly with local doctors. Developed the frontend with Next.js, integrated NextAuth for secure authentication, and used Redux to manage consistent data states across real-time interactions.",
       category: "web",
-      image: "/assets/project2.jpg",
+      image: "/assets/remedymate.png",
       tags: ["Next.js", "NextAuth", "Redux", "REST APIs"],
       url: "https://github.com/A2SV/g6-remedymate",
     },
@@ -39,7 +39,7 @@ export default function PortfolioTab() {
       title: "E-commerce Backend Service",
       description: "A high-performance RESTful API for an eCommerce store. Manages products, orders, cart states, and user sessions using Spring Boot. Features JWT authorization, a relational database schema designed with MariaDB, and unit tests validating service integrity.",
       category: "tool",
-      image: "/assets/project1.jpg",
+      image: "",
       tags: ["Spring Boot", "JWT", "MariaDB", "Unit Testing"],
       url: "https://github.com/firo1919/e-commerce",
     },
@@ -81,7 +81,7 @@ export default function PortfolioTab() {
           >
             {/* Image Container with Fallback */}
             <div className="relative h-44 w-full bg-linear-to-br from-mint-secondary/10 to-bg-base flex items-center justify-center overflow-hidden border-b border-mint-primary/10">
-              {!imgErrors[project.id] ? (
+              {project.image && !imgErrors[project.id] ? (
                 <Image
                   src={project.image}
                   alt={project.title}

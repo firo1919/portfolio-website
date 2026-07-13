@@ -31,7 +31,7 @@ export default function AboutTab({ onNavigateToTab }: { onNavigateToTab?: (tab: 
       id: "inventory-system",
       title: "Inventory Management System",
       description: "Built scalable REST APIs with Spring Boot, secured endpoints with Spring Security, and developed a Next.js interface for real-time tracking.",
-      image: "/assets/project1.jpg",
+      image: "",
       tags: ["Spring Boot", "Next.js", "PostgreSQL", "Docker"],
       url: "https://github.com/firo1919/Inventory-Management-System",
     },
@@ -39,7 +39,7 @@ export default function AboutTab({ onNavigateToTab }: { onNavigateToTab?: (tab: 
       id: "remedymate",
       title: "RemedyMate Healthcare Platform",
       description: "Developed the frontend of a healthcare platform connecting patients with doctors using Next.js, featuring secure authentication with NextAuth.",
-      image: "/assets/project2.jpg",
+      image: "/assets/remedymate.png",
       tags: ["Next.js", "NextAuth", "Redux", "APIs"],
       url: "https://github.com/A2SV/g6-remedymate",
     },
@@ -114,7 +114,7 @@ export default function AboutTab({ onNavigateToTab }: { onNavigateToTab?: (tab: 
             >
               {/* Image Container with Fallback */}
               <div className="relative h-44 w-full bg-gradient-to-br from-mint-secondary/10 to-bg-base flex items-center justify-center overflow-hidden border-b border-mint-primary/10">
-                {!imgErrors[project.id] ? (
+                {project.image && !imgErrors[project.id] ? (
                   <Image 
                     src={project.image}
                     alt={project.title}
