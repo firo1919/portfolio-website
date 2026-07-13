@@ -241,7 +241,7 @@ END:VCARD`;
         <div
             id="contact-panel"
             role="tabpanel"
-            className="flex flex-col gap-8 animate-fadeIn"
+            className="flex flex-col gap-8 animate-tab-enter"
         >
             {/* Title */}
             <section className="flex flex-col gap-4">
@@ -282,7 +282,7 @@ END:VCARD`;
                         <div className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">
                             Email
                         </div>
-                        <div className="text-sm font-bold text-text-heading truncate max-w-37.5">
+                        <div className="text-sm font-bold text-text-heading">
                             firomsassf@gmail.com
                         </div>
                     </div>

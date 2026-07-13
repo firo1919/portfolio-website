@@ -35,7 +35,7 @@ export default function Home() {
     return (
         <>
             {/* ── MOBILE LAYOUT (hidden on md+) ── */}
-            <div className="md:hidden flex flex-col h-screen bg-bg-base transition-colors duration-300 overflow-hidden relative">
+            <div className="md:hidden flex flex-col h-screen bg-bg-base transition-colors duration-300 overflow-hidden relative animate-settle">
                 {/* Ambient orbs */}
                 <div className="absolute top-[5%] left-[5%] w-48 h-48 rounded-full bg-mint-primary/10 blur-[80px] animate-float-slow pointer-events-none" />
                 <div className="absolute bottom-[10%] right-[5%] w-64 h-64 rounded-full bg-mint-secondary/5 blur-[90px] animate-float-slower pointer-events-none" />
@@ -96,7 +96,7 @@ export default function Home() {
                 <div className="absolute top-[40%] right-[20%] w-80 h-80 rounded-full bg-mint-light/5 blur-[110px] animate-pulse-slow pointer-events-none" />
 
                 {/* Main Container */}
-                <main className="w-full max-w-330 flex flex-row gap-5 items-start flex-1 z-10">
+                <main className="w-full max-w-330 flex flex-row gap-5 items-start flex-1 z-10 animate-settle">
                     {/* Sidebar — sticky, stays in view while page scrolls */}
                     <div className="sticky top-5 shrink-0">
                         <Sidebar />

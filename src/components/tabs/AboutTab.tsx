@@ -52,7 +52,7 @@ export default function AboutTab({ onNavigateToTab }: { onNavigateToTab?: (tab: 
   };
 
   return (
-    <div id="about-panel" role="tabpanel" className="flex flex-col gap-8 animate-fadeIn">
+    <div id="about-panel" role="tabpanel" className="flex flex-col gap-8 animate-tab-enter">
       {/* Intro Section */}
       <section className="flex flex-col gap-4">
         <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">

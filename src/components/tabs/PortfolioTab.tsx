@@ -63,7 +63,7 @@ export default function PortfolioTab() {
   };
 
   return (
-    <div id="portfolio-panel" role="tabpanel" className="flex flex-col gap-8 animate-fadeIn">
+    <div id="portfolio-panel" role="tabpanel" className="flex flex-col gap-8 animate-tab-enter">
       {/* Title */}
       <section className="flex flex-col gap-4">
         <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">

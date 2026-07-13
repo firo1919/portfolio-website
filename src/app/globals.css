@@ -34,7 +34,7 @@
 
 @theme {
   --font-sans: var(--font-inter), sans-serif;
-  --font-heading: var(--font-outfit), sans-serif;
+  --font-heading: var(--font-montserrat), sans-serif;
 
   --color-bg-base: var(--background);
   --color-bg-card: var(--bg-card);
@@ -54,6 +54,8 @@
   --animate-float-slow: float-slow 20s infinite ease-in-out;
   --animate-float-slower: float-slower 25s infinite ease-in-out alternate;
   --animate-pulse-slow: pulse-slow 8s infinite ease-in-out;
+  --animate-settle: settle 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-tab-enter: tab-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
   @keyframes float-slow {
     0%, 100% {
@@ -80,6 +82,26 @@
     }
     50% {
       opacity: 0.45;
+    }
+  }
+  @keyframes settle {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.995);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes tab-enter {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.995);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
   }
 }

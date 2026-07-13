@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -8,8 +8,8 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
 });
 
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${outfit.variable} h-full antialiased scroll-smooth`}
+      className={`${inter.variable} ${montserrat.variable} h-full antialiased scroll-smooth`}
       suppressHydrationWarning
     >
       <head>

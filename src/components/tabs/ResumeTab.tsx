@@ -78,7 +78,7 @@ export default function ResumeTab() {
         <div
             id="resume-panel"
             role="tabpanel"
-            className="flex flex-col gap-10 animate-fadeIn"
+            className="flex flex-col gap-10 animate-tab-enter"
         >
             {/* Page Title */}
             <section className="flex flex-col gap-4">
@@ -102,10 +102,10 @@ export default function ResumeTab() {
                         {experiences.map((exp, idx) => (
                             <div
                                 key={idx}
-                                className="relative flex flex-col gap-2"
+                                className="relative flex flex-col gap-2 group/timeline hover:translate-x-1.5 transition-transform duration-300"
                             >
                                 {/* Timeline Node Dot */}
-                                <div className="absolute -left-7.25 top-1.5 w-2.5 h-2.5 rounded-full bg-mint-primary border border-bg-base shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                                <div className="absolute -left-7.25 top-1.5 w-2.5 h-2.5 rounded-full bg-mint-primary border border-bg-base shadow-[0_0_8px_rgba(16,185,129,0.8)] group-hover/timeline:scale-125 group-hover/timeline:bg-mint-light transition-all duration-300" />
 
                                 <h3 className="text-base font-bold text-text-heading leading-snug">
                                     {exp.title}
@@ -148,10 +148,10 @@ export default function ResumeTab() {
                         {education.map((edu, idx) => (
                             <div
                                 key={idx}
-                                className="relative flex flex-col gap-2"
+                                className="relative flex flex-col gap-2 group/timeline hover:translate-x-1.5 transition-transform duration-300"
                             >
                                 {/* Timeline Node Dot */}
-                                <div className="absolute -left-7.25 top-1.5 w-2.5 h-2.5 rounded-full bg-mint-primary border border-bg-base shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                                <div className="absolute -left-7.25 top-1.5 w-2.5 h-2.5 rounded-full bg-mint-primary border border-bg-base shadow-[0_0_8px_rgba(16,185,129,0.8)] group-hover/timeline:scale-125 group-hover/timeline:bg-mint-light transition-all duration-300" />
 
                                 <h3 className="text-base font-bold text-text-heading leading-snug">
                                     {edu.title}
