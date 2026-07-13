@@ -247,7 +247,7 @@ END:VCARD`;
             <section className="flex flex-col gap-4">
                 <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
                     Let&apos;s Connect
-                    <span className="absolute bottom-[-6px] left-0 w-16 h-1 rounded bg-gradient-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                    <span className="absolute -bottom-1.5 left-0 w-16 h-1 rounded bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
                 </h1>
             </section>
 
@@ -456,7 +456,7 @@ END:VCARD`;
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="flex items-center justify-center gap-2 py-3.5 px-6 rounded-lg bg-gradient-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-sm tracking-wide hover:opacity-95 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed transition-all duration-300 mt-2 shadow-[0_0_15px_rgba(16,185,129,0.1)] w-full sm:w-fit sm:self-end"
+                        className="flex items-center justify-center gap-2 py-3.5 px-6 rounded-lg bg-linear-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-sm tracking-wide hover:opacity-95 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed transition-all duration-300 mt-2 shadow-[0_0_15px_rgba(16,185,129,0.1)] w-full sm:w-fit sm:self-end"
                     >
                         {isSubmitting ? (
                             <span className="w-5 h-5 border-2 border-bg-base border-t-transparent rounded-full animate-spin" />
@@ -514,7 +514,7 @@ END:VCARD`;
                             </div>
                             <button
                                 onClick={downloadVcard}
-                                className="w-full py-2.5 px-4 rounded-lg bg-gradient-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-xs tracking-wide hover:opacity-90 active:scale-[0.99] transition-all cursor-pointer shadow-md"
+                                className="w-full py-2.5 px-4 rounded-lg bg-linear-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-xs tracking-wide hover:opacity-90 active:scale-[0.99] transition-all cursor-pointer shadow-md"
                             >
                                 Download Contact File (.vcf)
                             </button>
