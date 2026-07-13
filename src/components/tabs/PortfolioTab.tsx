@@ -30,7 +30,7 @@ export default function PortfolioTab() {
       title: "RemedyMate Healthcare Platform",
       description: "A comprehensive healthcare platform connecting patients directly with local doctors. Developed the frontend with Next.js, integrated NextAuth for secure authentication, and used Redux to manage consistent data states across real-time interactions.",
       category: "web",
-      image: "/assets/project3.jpg",
+      image: "/assets/project2.jpg",
       tags: ["Next.js", "NextAuth", "Redux", "REST APIs"],
       url: "https://github.com/A2SV/g6-remedymate",
     },
@@ -39,7 +39,7 @@ export default function PortfolioTab() {
       title: "E-commerce Backend Service",
       description: "A high-performance RESTful API for an eCommerce store. Manages products, orders, cart states, and user sessions using Spring Boot. Features JWT authorization, a relational database schema designed with MariaDB, and unit tests validating service integrity.",
       category: "tool",
-      image: "/assets/project4.jpg",
+      image: "/assets/project1.jpg",
       tags: ["Spring Boot", "JWT", "MariaDB", "Unit Testing"],
       url: "https://github.com/firo1919/e-commerce",
     },
@@ -68,7 +68,7 @@ export default function PortfolioTab() {
       <section className="flex flex-col gap-4">
         <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
           Creative Showcase
-          <span className="absolute bottom-[-6px] left-0 w-16 h-1 rounded bg-gradient-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+          <span className="absolute -bottom-1.5 left-0 w-16 h-1 rounded bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
         </h1>
       </section>
 
@@ -80,7 +80,7 @@ export default function PortfolioTab() {
             className="group rounded-xl overflow-hidden border border-mint-primary/10 hover:border-mint-primary/25 bg-bg-base/20 hover:bg-bg-base/40 transition-all duration-300 flex flex-col shadow-lg"
           >
             {/* Image Container with Fallback */}
-            <div className="relative h-44 w-full bg-gradient-to-br from-mint-secondary/10 to-bg-base flex items-center justify-center overflow-hidden border-b border-mint-primary/10">
+            <div className="relative h-44 w-full bg-linear-to-br from-mint-secondary/10 to-bg-base flex items-center justify-center overflow-hidden border-b border-mint-primary/10">
               {!imgErrors[project.id] ? (
                 <Image
                   src={project.image}

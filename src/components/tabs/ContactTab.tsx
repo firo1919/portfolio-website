@@ -1,21 +1,29 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap } from "leaflet";
 import { Mail, Phone, Send, Paperclip, QrCode } from "lucide-react";
+import { toast } from "sonner";
+import TurnstileWidget from "@/components/TurnstileWidget";
 
 export default function ContactTab() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "", // Optional phone field
     message: "",
+    hp_field: "", // Honeypot trap field
   });
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
   
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<LeafletMap | null>(null);
+
+  const handleTurnstileVerify = useCallback((token: string) => {
+    setTurnstileToken(token);
+  }, []);
 
   // Dynamic Leaflet Loading and Setup
   useEffect(() => {
@@ -53,7 +61,7 @@ export default function ContactTab() {
 
       mapInstanceRef.current = map;
 
-      // Use dark themed map tiles
+      // Use voyager themed colored map tiles
       L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
         maxZoom: 19,
       }).addTo(map);
@@ -93,7 +101,7 @@ export default function ContactTab() {
       const selectedFile = e.target.files[0];
       // Size limit: 1MB
       if (selectedFile.size > 1024 * 1024) {
-        alert("File size must be under 1MB.");
+        toast.error("File size must be under 1MB.");
         return;
       }
       setFile(selectedFile);
@@ -104,21 +112,78 @@ export default function ContactTab() {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
+    if (!turnstileToken) {
+      toast.error("Please complete the CAPTCHA verification before sending.");
+      return;
+    }
+
     setIsSubmitting(true);
-    setSubmitStatus("idle");
 
-    // Simulate API request
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus("success");
+    let filePayload = undefined;
+    if (file) {
+      const getBase64 = (f: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(f);
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = (error) => reject(error);
+        });
+      };
+
+      try {
+        const base64Data = await getBase64(file);
+        const base64Content = base64Data.split(",")[1];
+        filePayload = {
+          name: file.name,
+          type: file.type,
+          content: base64Content,
+        };
+      } catch (err) {
+        console.error("File processing failed:", err);
+        toast.error("Failed to process attachment. Please try again.");
+        setIsSubmitting(false);
+        return;
+      }
+    }
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          hp_field: formData.hp_field,
+          token: turnstileToken,
+          file: filePayload,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Something went wrong.");
+      }
+
+      toast.success("Message sent successfully! Thank you for connecting.");
       // Reset form
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", phone: "", message: "", hp_field: "" });
       setFile(null);
+      setTurnstileToken("");
 
-      // Clear success alert after 5s
-      setTimeout(() => setSubmitStatus("idle"), 5000);
-    }, 1500);
+    } catch (err: any) {
+      console.error("Submission failed:", err);
+      toast.error(err.message || "An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_CF_TURNSTILE_SITE_KEY;
 
   return (
     <div id="contact-panel" role="tabpanel" className="flex flex-col gap-8 animate-fadeIn">
@@ -126,7 +191,7 @@ export default function ContactTab() {
       <section className="flex flex-col gap-4">
         <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
           Let&apos;s Connect
-          <span className="absolute bottom-[-6px] left-0 w-16 h-1 rounded bg-gradient-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+          <span className="absolute -bottom-1.5 left-0 w-16 h-1 rounded bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
         </h1>
       </section>
 
@@ -155,7 +220,7 @@ export default function ContactTab() {
           </div>
           <div>
             <div className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Email</div>
-            <div className="text-sm font-bold text-text-heading truncate max-w-[150px]">firomsassf@gmail.com</div>
+            <div className="text-sm font-bold text-text-heading truncate max-w-37.5">firomsassf@gmail.com</div>
           </div>
         </div>
 
@@ -181,7 +246,21 @@ export default function ContactTab() {
       <section className="flex flex-col gap-4">
         <h2 className="text-lg md:text-xl font-bold font-heading text-text-heading">Contact Form</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6 rounded-xl bg-bg-base/20 border border-mint-primary/5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          {/* Honeypot field (hidden from screen reader and users) */}
+          <input
+            type="text"
+            name="hp_field"
+            id="hp_field"
+            value={formData.hp_field}
+            onChange={handleInputChange}
+            tabIndex={-1}
+            autoComplete="off"
+            className="sr-only"
+            aria-hidden="true"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Full Name */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="name" className="text-xs font-semibold text-text-muted">Full Name</label>
@@ -208,6 +287,20 @@ export default function ContactTab() {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="your.email@example.com"
+                className="px-4 py-3 rounded-lg bg-bg-input border border-mint-primary/10 text-text-heading text-sm focus:border-mint-primary/40 focus:outline-none focus:ring-1 focus:ring-mint-primary/20 transition-all"
+              />
+            </div>
+
+            {/* Phone Number */}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="phone" className="text-xs font-semibold text-text-muted">Phone Number (Optional)</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                placeholder="+251 900 000 000"
                 className="px-4 py-3 rounded-lg bg-bg-input border border-mint-primary/10 text-text-heading text-sm focus:border-mint-primary/40 focus:outline-none focus:ring-1 focus:ring-mint-primary/20 transition-all"
               />
             </div>
@@ -243,11 +336,22 @@ export default function ContactTab() {
             <span className="text-[10px] text-text-muted font-medium">Only PDF files up to 1 MB</span>
           </div>
 
+          {/* Cloudflare Turnstile Integration */}
+          {turnstileSiteKey && (
+            <div className="flex justify-start my-1 flex-col">
+              <span className="text-xs font-semibold text-text-muted mb-1">Human Verification</span>
+              <TurnstileWidget 
+                siteKey={turnstileSiteKey} 
+                onVerify={handleTurnstileVerify} 
+              />
+            </div>
+          )}
+
           {/* Submit Message */}
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex items-center justify-center gap-2 py-3.5 px-6 rounded-lg bg-gradient-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-sm tracking-wide hover:opacity-95 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed transition-all duration-300 mt-2 shadow-[0_0_15px_rgba(16,185,129,0.1)] w-full sm:w-fit sm:self-end"
+            className="flex items-center justify-center gap-2 py-3.5 px-6 rounded-lg bg-linear-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-sm tracking-wide hover:opacity-95 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed transition-all duration-300 mt-2 shadow-[0_0_15px_rgba(16,185,129,0.1)] w-full sm:w-fit sm:self-end"
           >
             {isSubmitting ? (
               <span className="w-5 h-5 border-2 border-bg-base border-t-transparent rounded-full animate-spin" />
@@ -258,13 +362,6 @@ export default function ContactTab() {
               </>
             )}
           </button>
-
-          {/* Submit Notifications */}
-          {submitStatus === "success" && (
-            <div className="p-3.5 rounded-lg bg-mint-primary/10 border border-mint-primary/20 text-mint-light text-xs font-semibold text-center animate-fadeIn shadow-[0_0_12px_rgba(16,185,129,0.1)]">
-              Message sent successfully! Thank you for connecting.
-            </div>
-          )}
         </form>
       </section>
     </div>

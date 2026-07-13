@@ -39,7 +39,7 @@ export default function AboutTab({ onNavigateToTab }: { onNavigateToTab?: (tab: 
       id: "remedymate",
       title: "RemedyMate Healthcare Platform",
       description: "Developed the frontend of a healthcare platform connecting patients with doctors using Next.js, featuring secure authentication with NextAuth.",
-      image: "/assets/project3.jpg",
+      image: "/assets/project2.jpg",
       tags: ["Next.js", "NextAuth", "Redux", "APIs"],
       url: "https://github.com/A2SV/g6-remedymate",
     },

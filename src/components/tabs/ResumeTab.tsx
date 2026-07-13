@@ -84,7 +84,7 @@ export default function ResumeTab() {
             <section className="flex flex-col gap-4">
                 <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
                     Career Snapshot
-                    <span className="absolute bottom-[-6px] left-0 w-16 h-1 rounded bg-gradient-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                    <span className="absolute -bottom-1.5 left-0 w-16 h-1 rounded bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
                 </h1>
             </section>
 
@@ -151,7 +151,7 @@ export default function ResumeTab() {
                                 className="relative flex flex-col gap-2"
                             >
                                 {/* Timeline Node Dot */}
-                                <div className="absolute left-[-29px] top-[6px] w-2.5 h-2.5 rounded-full bg-mint-primary border border-bg-base shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                                <div className="absolute -left-7.25 top-1.5 w-2.5 h-2.5 rounded-full bg-mint-primary border border-bg-base shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
 
                                 <h3 className="text-base font-bold text-text-heading leading-snug">
                                     {edu.title}
@@ -204,7 +204,7 @@ export default function ResumeTab() {
                                             ? `${skill.percentage}%`
                                             : "0%",
                                     }}
-                                    className="h-full bg-gradient-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.3)] transition-all duration-1000 ease-out"
+                                    className="h-full bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.3)] transition-all duration-1000 ease-out"
                                 />
                             </div>
                         </div>
