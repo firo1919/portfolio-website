@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import type { Map as LeafletMap } from "leaflet";
 import { Mail, Phone, Send, Paperclip, QrCode, X } from "lucide-react";
@@ -19,6 +20,11 @@ export default function ContactTab() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [turnstileToken, setTurnstileToken] = useState("");
     const [showQrModal, setShowQrModal] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<LeafletMap | null>(null);
@@ -421,8 +427,8 @@ END:VCARD`;
                     </div>
 
                     {/* Attach PDF (Optional) */}
-                    <div className="flex items-center justify-between">
-                        <label className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-dashed border-mint-primary/20 hover:border-mint-primary/50 text-text-muted hover:text-mint-light text-xs font-semibold cursor-pointer transition-all duration-300">
+                    <div className="flex items-center justify-between gap-2">
+                        <label className="w-fit flex items-center gap-2 px-4 py-2.5 rounded-lg border border-dashed border-mint-primary/20 hover:border-mint-primary/50 text-text-muted hover:text-mint-light text-xs font-semibold cursor-pointer transition-all duration-300">
                             <Paperclip size={14} />
                             <span>
                                 {file ? file.name : "Attach PDF (Optional)"}
@@ -471,57 +477,60 @@ END:VCARD`;
             </section>
 
             {/* QR Modal */}
-            {showQrModal && (
-                <div
-                    onClick={() => setShowQrModal(false)}
-                    className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn"
-                >
+            {showQrModal &&
+                mounted &&
+                createPortal(
                     <div
-                        onClick={(e) => e.stopPropagation()}
-                        className="w-full max-w-sm bg-glass border-glass rounded-2xl p-6 shadow-2xl relative flex flex-col items-center gap-5 text-center"
+                        onClick={() => setShowQrModal(false)}
+                        className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn"
                     >
-                        <button
-                            onClick={() => setShowQrModal(false)}
-                            className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-bg-base/40 border border-mint-primary/10 flex items-center justify-center text-text-muted hover:text-mint-light transition-all cursor-pointer"
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-full max-w-sm bg-glass border-glass rounded-2xl p-6 shadow-2xl relative flex flex-col items-center gap-5 text-center"
                         >
-                            <X size={16} />
-                        </button>
-
-                        <div className="flex flex-col gap-1.5">
-                            <h3 className="text-lg font-bold text-text-heading font-heading">
-                                Save Contact Card
-                            </h3>
-                            <p className="text-xs text-text-muted">
-                                Scan the QR code with your phone camera to
-                                instantly save my contact details.
-                            </p>
-                        </div>
-
-                        <div className="w-48 h-48 border-2 border-mint-primary/20 rounded-xl bg-white flex items-center justify-center p-3 shadow-lg relative group/qrmodal">
-                            <Image
-                                src="/assets/contact-qr.png"
-                                alt="Firomsa Assefa Roba Contact QR"
-                                width={192}
-                                height={192}
-                                className="object-cover"
-                            />
-                            <div className="absolute inset-0 border border-mint-primary/40 rounded-xl pointer-events-none group-hover/qrmodal:scale-105 transition-transform duration-300" />
-                        </div>
-
-                        <div className="flex flex-col gap-2 w-full mt-2">
-                            <div className="text-[10px] text-text-muted font-medium uppercase tracking-wider">
-                                Alternative
-                            </div>
                             <button
-                                onClick={downloadVcard}
-                                className="w-full py-2.5 px-4 rounded-lg bg-linear-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-xs tracking-wide hover:opacity-90 active:scale-[0.99] transition-all cursor-pointer shadow-md"
+                                onClick={() => setShowQrModal(false)}
+                                className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-bg-base/40 border border-mint-primary/10 flex items-center justify-center text-text-muted hover:text-mint-light transition-all cursor-pointer"
                             >
-                                Download Contact File (.vcf)
+                                <X size={16} />
                             </button>
+
+                            <div className="flex flex-col gap-1.5">
+                                <h3 className="text-lg font-bold text-text-heading font-heading">
+                                    Save Contact Card
+                                </h3>
+                                <p className="text-xs text-text-muted">
+                                    Scan the QR code with your phone camera to
+                                    instantly save my contact details.
+                                </p>
+                            </div>
+
+                            <div className="w-48 h-48 border-2 border-mint-primary/20 rounded-xl bg-white flex items-center justify-center p-3 shadow-lg relative group/qrmodal">
+                                <Image
+                                    src="/assets/contact-qr.png"
+                                    alt="Firomsa Assefa Roba Contact QR"
+                                    width={192}
+                                    height={192}
+                                    className="object-cover"
+                                />
+                                <div className="absolute inset-0 border border-mint-primary/40 rounded-xl pointer-events-none group-hover/qrmodal:scale-105 transition-transform duration-300" />
+                            </div>
+
+                            <div className="flex flex-col gap-2 w-full mt-2">
+                                <div className="text-[10px] text-text-muted font-medium uppercase tracking-wider">
+                                    Alternative
+                                </div>
+                                <button
+                                    onClick={downloadVcard}
+                                    className="w-full py-2.5 px-4 rounded-lg bg-linear-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-xs tracking-wide hover:opacity-90 active:scale-[0.99] transition-all cursor-pointer shadow-md"
+                                >
+                                    Download Contact File (.vcf)
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            )}
+                    </div>,
+                    document.body,
+                )}
         </div>
     );
 }
