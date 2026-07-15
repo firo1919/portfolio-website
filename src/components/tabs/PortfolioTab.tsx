@@ -1,18 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import { Code, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
-
-interface ProjectItem {
-  id: string;
-  title: string;
-  description: string;
-  category: "web" | "cli" | "tool";
-  image: string;
-  tags: string[];
-  url: string;
-}
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import ProjectCard, { ProjectItem } from "@/components/ProjectCard";
+import Lightbox from "@/components/Lightbox";
 
 export default function PortfolioTab() {
   const projects: ProjectItem[] = [
@@ -21,7 +12,12 @@ export default function PortfolioTab() {
       title: "Inventory Management System",
       description: "A secure, robust warehouse and stock tracking web application. Built scalable REST APIs with Spring Boot and secured endpoints utilizing Spring Security. Created a dynamic Next.js UI, optimized PostgreSQL database queries using Spring Data JPA, containerized components with Docker, and built a CI/CD pipeline.",
       category: "web",
-      image: "",
+      image: "/assets/inventory_system/dashboard.png",
+      images: [
+        "/assets/inventory_system/dashboard.png",
+        "/assets/inventory_system/products.png",
+        "/assets/inventory_system/audit-log.png"
+      ],
       tags: ["Spring Boot", "Next.js", "PostgreSQL", "Docker", "CI/CD"],
       url: "https://github.com/firo1919/Inventory-Management-System",
     },
@@ -30,7 +26,12 @@ export default function PortfolioTab() {
       title: "RemedyMate Healthcare Platform",
       description: "A comprehensive healthcare platform connecting patients directly with local doctors. Developed the frontend with Next.js, integrated NextAuth for secure authentication, and used Redux to manage consistent data states across real-time interactions.",
       category: "web",
-      image: "/assets/remedymate.png",
+      image: "/assets/remedymate/remedymate.png",
+      images: [
+        "/assets/remedymate/remedymate.png",
+        "/assets/remedymate/chat.jpg",
+        "/assets/remedymate/chat2.jpg"
+      ],
       tags: ["Next.js", "NextAuth", "Redux", "REST APIs"],
       url: "https://github.com/A2SV/g6-remedymate",
     },
@@ -39,7 +40,10 @@ export default function PortfolioTab() {
       title: "E-commerce Backend Service",
       description: "A high-performance RESTful API for an eCommerce store. Manages products, orders, cart states, and user sessions using Spring Boot. Features JWT authorization, a relational database schema designed with MariaDB, and unit tests validating service integrity.",
       category: "tool",
-      image: "",
+      image: "/assets/ecommerce/api-doc.png",
+      images: [
+        "/assets/ecommerce/api-doc.png"
+      ],
       tags: ["Spring Boot", "JWT", "MariaDB", "Unit Testing"],
       url: "https://github.com/firo1919/e-commerce",
     },
@@ -48,9 +52,10 @@ export default function PortfolioTab() {
   const pageSize = 2;
   const [currentPage, setCurrentPage] = useState(1);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
+  const [lightboxProject, setLightboxProject] = useState<ProjectItem | null>(null);
 
-  const handleImageError = (id: string) => {
-    setImgErrors((prev) => ({ ...prev, [id]: true }));
+  const handleImageError = (path: string) => {
+    setImgErrors((prev) => ({ ...prev, [path]: true }));
   };
 
   const totalPages = Math.ceil(projects.length / pageSize);
@@ -63,7 +68,7 @@ export default function PortfolioTab() {
   };
 
   return (
-    <div id="portfolio-panel" role="tabpanel" className="flex flex-col gap-8 animate-tab-enter">
+    <div id="portfolio-panel" role="tabpanel" className="flex flex-col gap-8 animate-tab-enter relative">
       {/* Title */}
       <section className="flex flex-col gap-4">
         <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
@@ -75,61 +80,13 @@ export default function PortfolioTab() {
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {paginatedProjects.map((project) => (
-          <div
+          <ProjectCard
             key={project.id}
-            className="group rounded-xl overflow-hidden border border-mint-primary/10 hover:border-mint-primary/25 bg-bg-base/20 hover:bg-bg-base/40 transition-all duration-300 flex flex-col shadow-lg"
-          >
-            {/* Image Container with Fallback */}
-            <div className="relative h-44 w-full bg-linear-to-br from-mint-secondary/10 to-bg-base flex items-center justify-center overflow-hidden border-b border-mint-primary/10">
-              {project.image && !imgErrors[project.id] ? (
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 300px"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  onError={() => handleImageError(project.id)}
-                />
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center gap-2">
-                  <Code size={36} className="text-mint-light/40" />
-                  <span className="text-xs text-text-muted font-medium">Image representation</span>
-                </div>
-              )}
-              {/* Floating category label */}
-              <span className="absolute top-3 right-3 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-mint-primary/10 text-mint-light border border-mint-primary/20 backdrop-blur-md">
-                {project.category}
-              </span>
-              {/* Tags overlay */}
-              <div className="absolute bottom-3 left-3 flex flex-wrap gap-1.5 z-10">
-                {project.tags.map((tag, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded text-[10px] font-semibold bg-bg-base/95 text-mint-light border border-mint-primary/10">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Info details */}
-            <div className="p-5 flex flex-col flex-1 gap-2">
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="text-xs text-mint-light hover:text-mint-primary flex items-center gap-1.5 font-semibold hover:underline underline-offset-2 transition-all duration-200 w-fit"
-              >
-                <ExternalLink size={12} />
-                <span>{project.url.replace("https://", "")}</span>
-              </a>
-              <h3 className="text-lg font-bold text-text-heading group-hover:text-mint-light transition-colors duration-300 font-heading">
-                {project.title}
-              </h3>
-              <p className="text-xs text-text-body leading-relaxed flex-1">
-                {project.description}
-              </p>
-            </div>
-          </div>
+            project={project}
+            onClick={() => setLightboxProject(project)}
+            imgErrors={imgErrors}
+            onImageError={handleImageError}
+          />
         ))}
       </div>
 
@@ -176,6 +133,15 @@ export default function PortfolioTab() {
           </button>
         </div>
       )}
+
+      {/* Fullscreen Lightbox Modal */}
+      <Lightbox
+        isOpen={!!lightboxProject}
+        onClose={() => setLightboxProject(null)}
+        title={lightboxProject?.title || ""}
+        description={lightboxProject?.description || ""}
+        images={lightboxProject?.images || []}
+      />
     </div>
   );
 }

@@ -23,6 +23,7 @@ export default function ContactTab() {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
     }, []);
 
@@ -230,12 +231,10 @@ END:VCARD`;
             });
             setFile(null);
             setTurnstileToken("");
-        } catch (err: any) {
+        } catch (err) {
             console.error("Submission failed:", err);
-            toast.error(
-                err.message ||
-                    "An unexpected error occurred. Please try again.",
-            );
+            const errMsg = err instanceof Error ? err.message : "An unexpected error occurred. Please try again.";
+            toast.error(errMsg);
         } finally {
             setIsSubmitting(false);
         }

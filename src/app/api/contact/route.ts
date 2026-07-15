@@ -72,8 +72,9 @@ export async function POST(request: Request) {
         await redis.expire(limitKey, 3600); // 1 hour sliding window
       }
       console.log(`Redis rate limit check completed in ${Date.now() - redisStart}ms. Count: ${currentCount}/3`);
-    } catch (redisErr: any) {
-      console.error("Redis rate limit check failed, bypassing to allow submission:", redisErr.message);
+    } catch (redisErr) {
+      const errMsg = redisErr instanceof Error ? redisErr.message : String(redisErr);
+      console.error("Redis rate limit check failed, bypassing to allow submission:", errMsg);
     }
 
     if (currentCount > 3) {
@@ -107,7 +108,14 @@ export async function POST(request: Request) {
     // 5. Build Resend Email Payload
     const resendKey = process.env.RESEND_API_KEY!;
     
-    const emailPayload: any = {
+    const emailPayload: {
+      from: string;
+      to: string;
+      reply_to: string;
+      subject: string;
+      html: string;
+      attachments?: { filename: string; content: string }[];
+    } = {
       from: "Portfolio Contact Form <onboarding@resend.dev>",
       to: "firomsassf@gmail.com",
       reply_to: email,
