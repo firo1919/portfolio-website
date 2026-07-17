@@ -27,20 +27,11 @@ export const metadata: Metadata = {
     title: "Firomsa Assefa Roba | Software Engineer",
     description: "Interactive developer portfolio showcasing software engineering experience, projects, and skills.",
     siteName: "Firomsa Assefa Roba Portfolio",
-    images: [
-      {
-        url: "/icon.jpg",
-        width: 800,
-        height: 600,
-        alt: "Firomsa Assefa Roba Portfolio",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Firomsa Assefa Roba | Software Engineer",
     description: "Interactive developer portfolio showcasing software engineering experience, projects, and skills.",
-    images: ["/icon.jpg"],
   },
   robots: {
     index: true,
