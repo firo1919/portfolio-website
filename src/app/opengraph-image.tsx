@@ -13,7 +13,7 @@ export const contentType = 'image/png';
 
 export default async function Image() {
   // Read local image file and convert to base64
-  const iconData = readFileSync(join(process.cwd(), 'public', 'icon.jpg'));
+  const iconData = readFileSync(join(process.cwd(), 'src', 'app', 'icon.jpg'));
   const iconBase64 = `data:image/jpeg;base64,${iconData.toString('base64')}`;
 
   return new ImageResponse(
