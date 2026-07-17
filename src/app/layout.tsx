@@ -14,8 +14,45 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Developer Portfolio | Firomsa Assefa Roba",
-  description: "A premium interactive developer portfolio showcasing software engineering experience, skills, and creative showcase.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  title: "Firomsa Assefa Roba | Software Engineer",
+  description: "Interactive developer portfolio showcasing software engineering experience, projects, and skills. Built with Next.js and Tailwind CSS.",
+  keywords: ["Firomsa Assefa Roba", "Software Engineer", "Full Stack Developer", "Portfolio", "Next.js", "React", "TypeScript", "Ethiopia", "firo1919"],
+  authors: [{ name: "Firomsa Assefa Roba", url: "https://github.com/firo1919" }],
+  creator: "Firomsa Assefa Roba",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    title: "Firomsa Assefa Roba | Software Engineer",
+    description: "Interactive developer portfolio showcasing software engineering experience, projects, and skills.",
+    siteName: "Firomsa Assefa Roba Portfolio",
+    images: [
+      {
+        url: "/icon.jpg",
+        width: 800,
+        height: 600,
+        alt: "Firomsa Assefa Roba Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Firomsa Assefa Roba | Software Engineer",
+    description: "Interactive developer portfolio showcasing software engineering experience, projects, and skills.",
+    images: ["/icon.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -45,6 +82,22 @@ export default function RootLayout({
                 } catch (e) {}
               })();
             `,
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Firomsa Assefa Roba",
+              url: process.env.NEXT_PUBLIC_SITE_URL || "https://firomsa.dev",
+              jobTitle: "Software Engineer",
+              sameAs: [
+                "https://github.com/firo1919",
+                "https://www.linkedin.com/in/firomsa-assefa-roba"
+              ],
+            }),
           }}
         />
       </head>
