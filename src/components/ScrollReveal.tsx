@@ -17,13 +17,16 @@ export default function ScrollReveal({
   delayMs = 0,
   durationMs = 1100, // 1.1s for a more premium, slow, and deliberate feel
 }: ScrollRevealProps) {
-  const [isVisible, setIsVisible] = useState(false);
+  // Initialize to true if on client and IntersectionObserver is unsupported
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !("IntersectionObserver" in window);
+  });
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Fallback if browser doesn't support IntersectionObserver
+    // Fallback handled during state initialization
     if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
-      setIsVisible(true);
       return;
     }
 

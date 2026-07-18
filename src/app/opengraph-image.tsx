@@ -76,6 +76,7 @@ export default async function Image() {
         <div style={{ display: 'flex', marginLeft: '40px' }}>
           <img
             src={iconBase64}
+            alt="Firomsa Assefa Roba"
             width={320}
             height={320}
             style={{
