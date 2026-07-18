@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Briefcase, GraduationCap } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 interface TimelineItem {
     title: string;
@@ -78,139 +79,145 @@ export default function ResumeTab() {
         <div
             id="resume-panel"
             role="tabpanel"
-            className="flex flex-col gap-10 animate-tab-enter"
+            className="flex flex-col gap-12 animate-tab-enter"
         >
             {/* Page Title */}
-            <section className="flex flex-col gap-4">
-                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
-                    Career Snapshot
-                    <span className="absolute -bottom-1.5 left-0 w-16 h-1 rounded bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
-                </h1>
-            </section>
+            <ScrollReveal delayMs={50}>
+                <section className="flex flex-col gap-4">
+                    <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
+                        Career Snapshot
+                        <span className="absolute -bottom-1.5 left-0 w-16 h-1 rounded bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                    </h1>
+                </section>
+            </ScrollReveal>
 
             {/* Experience & Education Timelines */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                {/* Experience Section */}
-                <section className="flex flex-col gap-6">
-                    <h2 className="text-lg md:text-xl font-bold font-heading text-text-heading flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-mint-primary/10 flex items-center justify-center text-mint-light">
-                            <Briefcase size={18} />
-                        </div>
-                        <span>Experience</span>
-                    </h2>
-                    <div className="relative pl-6 border-l border-mint-primary/10 flex flex-col gap-8">
-                        {experiences.map((exp, idx) => (
-                            <div
-                                key={idx}
-                                className="relative flex flex-col gap-2 group/timeline hover:translate-x-1.5 transition-transform duration-300"
-                            >
-                                {/* Timeline Node Dot */}
-                                <div className="absolute -left-7.25 top-1.5 w-2.5 h-2.5 rounded-full bg-mint-primary border border-bg-base shadow-[0_0_8px_rgba(16,185,129,0.8)] group-hover/timeline:scale-125 group-hover/timeline:bg-mint-light transition-all duration-300" />
+            <ScrollReveal delayMs={150}>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    {/* Experience Section */}
+                    <section className="flex flex-col gap-6">
+                        <h2 className="text-lg md:text-xl font-bold font-heading text-text-heading flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-lg bg-mint-primary/10 flex items-center justify-center text-mint-light">
+                                <Briefcase size={18} />
+                            </div>
+                            <span>Experience</span>
+                        </h2>
+                        <div className="relative pl-6 border-l border-mint-primary/10 flex flex-col gap-8">
+                            {experiences.map((exp, idx) => (
+                                <div
+                                    key={idx}
+                                    className="relative flex flex-col gap-2 group/timeline hover:translate-x-1.5 transition-transform duration-300"
+                                >
+                                    {/* Timeline Node Dot */}
+                                    <div className="absolute -left-7.25 top-1.5 w-2.5 h-2.5 rounded-full bg-mint-primary border border-bg-base shadow-[0_0_8px_rgba(16,185,129,0.8)] group-hover/timeline:scale-125 group-hover/timeline:bg-mint-light transition-all duration-300" />
 
-                                <h3 className="text-base font-bold text-text-heading leading-snug">
-                                    {exp.title}
-                                </h3>
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-xs">
-                                    <span className="font-semibold text-mint-light">
-                                        {exp.subtitle}
-                                    </span>
-                                    <span className="text-text-muted font-medium">
-                                        {exp.date}
-                                    </span>
+                                    <h3 className="text-base font-bold text-text-heading leading-snug">
+                                        {exp.title}
+                                    </h3>
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-xs">
+                                        <span className="font-semibold text-mint-light">
+                                            {exp.subtitle}
+                                        </span>
+                                        <span className="text-text-muted font-medium">
+                                            {exp.date}
+                                        </span>
+                                    </div>
+                                    {exp.description && (
+                                        <p className="text-xs md:text-sm text-text-body leading-relaxed mt-1">
+                                            {exp.description}
+                                        </p>
+                                    )}
+                                    {exp.bulletPoints &&
+                                        exp.bulletPoints.length > 0 && (
+                                            <ul className="list-disc pl-4 text-xs md:text-sm text-text-body leading-relaxed space-y-1.5 mt-1">
+                                                {exp.bulletPoints.map((bp, i) => (
+                                                    <li key={i}>{bp}</li>
+                                                ))}
+                                            </ul>
+                                        )}
                                 </div>
-                                {exp.description && (
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Education Section */}
+                    <section className="flex flex-col gap-6">
+                        <h2 className="text-lg md:text-xl font-bold font-heading text-text-heading flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-lg bg-mint-primary/10 flex items-center justify-center text-mint-light">
+                                <GraduationCap size={18} />
+                            </div>
+                            <span>Education</span>
+                        </h2>
+                        <div className="relative pl-6 border-l border-mint-primary/10 flex flex-col gap-8">
+                            {education.map((edu, idx) => (
+                                <div
+                                    key={idx}
+                                    className="relative flex flex-col gap-2 group/timeline hover:translate-x-1.5 transition-transform duration-300"
+                                >
+                                    {/* Timeline Node Dot */}
+                                    <div className="absolute -left-7.25 top-1.5 w-2.5 h-2.5 rounded-full bg-mint-primary border border-bg-base shadow-[0_0_8px_rgba(16,185,129,0.8)] group-hover/timeline:scale-125 group-hover/timeline:bg-mint-light transition-all duration-300" />
+
+                                    <h3 className="text-base font-bold text-text-heading leading-snug">
+                                        {edu.title}
+                                    </h3>
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-xs">
+                                        <span className="font-semibold text-mint-light">
+                                            {edu.subtitle}
+                                        </span>
+                                        <span className="text-text-muted font-medium">
+                                            {edu.date}
+                                        </span>
+                                    </div>
                                     <p className="text-xs md:text-sm text-text-body leading-relaxed mt-1">
-                                        {exp.description}
+                                        {edu.description}
                                     </p>
-                                )}
-                                {exp.bulletPoints &&
-                                    exp.bulletPoints.length > 0 && (
-                                        <ul className="list-disc pl-4 text-xs md:text-sm text-text-body leading-relaxed space-y-1.5 mt-1">
-                                            {exp.bulletPoints.map((bp, i) => (
-                                                <li key={i}>{bp}</li>
-                                            ))}
-                                        </ul>
-                                    )}
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                {/* Education Section */}
-                <section className="flex flex-col gap-6">
-                    <h2 className="text-lg md:text-xl font-bold font-heading text-text-heading flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-mint-primary/10 flex items-center justify-center text-mint-light">
-                            <GraduationCap size={18} />
-                        </div>
-                        <span>Education</span>
-                    </h2>
-                    <div className="relative pl-6 border-l border-mint-primary/10 flex flex-col gap-8">
-                        {education.map((edu, idx) => (
-                            <div
-                                key={idx}
-                                className="relative flex flex-col gap-2 group/timeline hover:translate-x-1.5 transition-transform duration-300"
-                            >
-                                {/* Timeline Node Dot */}
-                                <div className="absolute -left-7.25 top-1.5 w-2.5 h-2.5 rounded-full bg-mint-primary border border-bg-base shadow-[0_0_8px_rgba(16,185,129,0.8)] group-hover/timeline:scale-125 group-hover/timeline:bg-mint-light transition-all duration-300" />
-
-                                <h3 className="text-base font-bold text-text-heading leading-snug">
-                                    {edu.title}
-                                </h3>
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-xs">
-                                    <span className="font-semibold text-mint-light">
-                                        {edu.subtitle}
-                                    </span>
-                                    <span className="text-text-muted font-medium">
-                                        {edu.date}
-                                    </span>
+                                    {edu.bulletPoints &&
+                                        edu.bulletPoints.length > 0 && (
+                                            <ul className="list-disc pl-4 text-xs md:text-sm text-text-body leading-relaxed space-y-1.5 mt-1">
+                                                {edu.bulletPoints.map((bp, i) => (
+                                                    <li key={i}>{bp}</li>
+                                                ))}
+                                            </ul>
+                                        )}
                                 </div>
-                                <p className="text-xs md:text-sm text-text-body leading-relaxed mt-1">
-                                    {edu.description}
-                                </p>
-                                {edu.bulletPoints &&
-                                    edu.bulletPoints.length > 0 && (
-                                        <ul className="list-disc pl-4 text-xs md:text-sm text-text-body leading-relaxed space-y-1.5 mt-1">
-                                            {edu.bulletPoints.map((bp, i) => (
-                                                <li key={i}>{bp}</li>
-                                            ))}
-                                        </ul>
-                                    )}
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            </div>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+            </ScrollReveal>
 
             {/* Skills Section */}
-            <section className="flex flex-col gap-6">
-                <h2 className="text-lg md:text-xl font-bold font-heading text-text-heading">
-                    My Skills
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5 p-6 rounded-xl bg-bg-base/20 border border-mint-primary/5">
-                    {skills.map((skill, idx) => (
-                        <div key={idx} className="flex flex-col gap-1.5">
-                            <div className="flex items-center justify-between text-xs font-semibold">
-                                <span className="text-text-body">
-                                    {skill.name}
-                                </span>
-                                <span className="text-mint-light">
-                                    {skill.percentage}%
-                                </span>
+            <ScrollReveal delayMs={250}>
+                <section className="flex flex-col gap-6">
+                    <h2 className="text-lg md:text-xl font-bold font-heading text-text-heading">
+                        My Skills
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5 p-6 rounded-xl bg-bg-base/20 border border-mint-primary/5">
+                        {skills.map((skill, idx) => (
+                            <div key={idx} className="flex flex-col gap-1.5">
+                                <div className="flex items-center justify-between text-xs font-semibold">
+                                    <span className="text-text-body">
+                                        {skill.name}
+                                    </span>
+                                    <span className="text-mint-light">
+                                        {skill.percentage}%
+                                    </span>
+                                </div>
+                                <div className="w-full h-2 rounded-full bg-bg-base border border-mint-primary/5 overflow-hidden">
+                                    <div
+                                        style={{
+                                            width: animated
+                                                ? `${skill.percentage}%`
+                                                : "0%",
+                                        }}
+                                        className="h-full bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.3)] transition-all duration-1000 ease-out"
+                                    />
+                                </div>
                             </div>
-                            <div className="w-full h-2 rounded-full bg-bg-base border border-mint-primary/5 overflow-hidden">
-                                <div
-                                    style={{
-                                        width: animated
-                                            ? `${skill.percentage}%`
-                                            : "0%",
-                                    }}
-                                    className="h-full bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.3)] transition-all duration-1000 ease-out"
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
+                        ))}
+                    </div>
+                </section>
+            </ScrollReveal>
         </div>
     );
 }
