@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProjectCard, { ProjectItem } from "@/components/ProjectCard";
 import Lightbox from "@/components/Lightbox";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function PortfolioTab() {
   const projects: ProjectItem[] = [
@@ -70,69 +71,75 @@ export default function PortfolioTab() {
   return (
     <div id="portfolio-panel" role="tabpanel" className="flex flex-col gap-8 animate-tab-enter relative">
       {/* Title */}
-      <section className="flex flex-col gap-4">
-        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
-          Creative Showcase
-          <span className="absolute -bottom-1.5 left-0 w-16 h-1 rounded bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
-        </h1>
-      </section>
+      <ScrollReveal delayMs={50}>
+        <section className="flex flex-col gap-4">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
+            Creative Showcase
+            <span className="absolute -bottom-1.5 left-0 w-16 h-1 rounded bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+          </h1>
+        </section>
+      </ScrollReveal>
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {paginatedProjects.map((project) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            onClick={() => setLightboxProject(project)}
-            imgErrors={imgErrors}
-            onImageError={handleImageError}
-          />
-        ))}
-      </div>
+      {/* Projects Grid & Pagination */}
+      <ScrollReveal delayMs={150}>
+        <div className="flex flex-col gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {paginatedProjects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onClick={() => setLightboxProject(project)}
+                imgErrors={imgErrors}
+                onImageError={handleImageError}
+              />
+            ))}
+          </div>
 
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 mt-6 pt-4 border-t border-mint-primary/5">
-          {/* Previous Button */}
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            aria-label="Previous Page"
-            className="w-9 h-9 rounded-lg border border-mint-primary/10 flex items-center justify-center text-text-muted hover:text-mint-light hover:border-mint-primary/35 disabled:opacity-30 disabled:hover:text-text-muted disabled:hover:border-mint-primary/10 cursor-pointer disabled:cursor-not-allowed transition-all duration-300 bg-bg-base/20 hover:bg-bg-base/40"
-          >
-            <ChevronLeft size={16} />
-          </button>
-
-          {/* Page Numbers */}
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-            const isCurrent = page === currentPage;
-            return (
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-6 pt-4 border-t border-mint-primary/5">
+              {/* Previous Button */}
               <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                aria-current={isCurrent ? "page" : undefined}
-                className={`w-9 h-9 rounded-lg font-semibold text-xs tracking-wider transition-all duration-300 cursor-pointer ${
-                  isCurrent
-                    ? "bg-mint-primary/10 text-mint-light border border-mint-primary/35 shadow-[0_0_8px_rgba(16,185,129,0.08)]"
-                    : "bg-bg-base/20 hover:bg-bg-base/40 text-text-muted hover:text-text-body border border-mint-primary/5"
-                }`}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                aria-label="Previous Page"
+                className="w-9 h-9 rounded-lg border border-mint-primary/10 flex items-center justify-center text-text-muted hover:text-mint-light hover:border-mint-primary/35 disabled:opacity-30 disabled:hover:text-text-muted disabled:hover:border-mint-primary/10 cursor-pointer disabled:cursor-not-allowed transition-all duration-300 bg-bg-base/20 hover:bg-bg-base/40"
               >
-                {page}
+                <ChevronLeft size={16} />
               </button>
-            );
-          })}
 
-          {/* Next Button */}
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            aria-label="Next Page"
-            className="w-9 h-9 rounded-lg border border-mint-primary/10 flex items-center justify-center text-text-muted hover:text-mint-light hover:border-mint-primary/35 disabled:opacity-30 disabled:hover:text-text-muted disabled:hover:border-mint-primary/10 cursor-pointer disabled:cursor-not-allowed transition-all duration-300 bg-bg-base/20 hover:bg-bg-base/40"
-          >
-            <ChevronRight size={16} />
-          </button>
+              {/* Page Numbers */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                const isCurrent = page === currentPage;
+                return (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    aria-current={isCurrent ? "page" : undefined}
+                    className={`w-9 h-9 rounded-lg font-semibold text-xs tracking-wider transition-all duration-300 cursor-pointer ${
+                      isCurrent
+                        ? "bg-mint-primary/10 text-mint-light border border-mint-primary/35 shadow-[0_0_8px_rgba(16,185,129,0.08)]"
+                        : "bg-bg-base/20 hover:bg-bg-base/40 text-text-muted hover:text-text-body border border-mint-primary/5"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+
+              {/* Next Button */}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                aria-label="Next Page"
+                className="w-9 h-9 rounded-lg border border-mint-primary/10 flex items-center justify-center text-text-muted hover:text-mint-light hover:border-mint-primary/35 disabled:opacity-30 disabled:hover:text-text-muted disabled:hover:border-mint-primary/10 cursor-pointer disabled:cursor-not-allowed transition-all duration-300 bg-bg-base/20 hover:bg-bg-base/40"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
         </div>
-      )}
+      </ScrollReveal>
 
       {/* Fullscreen Lightbox Modal */}
       <Lightbox
