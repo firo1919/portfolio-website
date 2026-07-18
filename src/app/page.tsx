@@ -9,6 +9,7 @@ import ResumeTab from "@/components/tabs/ResumeTab";
 import PortfolioTab from "@/components/tabs/PortfolioTab";
 import ContactTab from "@/components/tabs/ContactTab";
 import GalleryTab from "@/components/tabs/GalleryTab";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Home() {
     const [activeTab, setActiveTab] = useState<TabType>("about");
@@ -34,6 +35,11 @@ export default function Home() {
 
     return (
         <>
+            {/* Floating Theme Toggle — docked to the right edge of the screen, a bit towards the top (below mobile header) */}
+            <div className="fixed right-0 top-28 z-50 translate-x-1.5 hover:translate-x-0 transition-transform duration-300">
+                <ThemeToggle isTab={true} />
+            </div>
+
             {/* ── MOBILE LAYOUT (hidden on md+) ── */}
             <div className="md:hidden flex flex-col min-h-screen bg-bg-base transition-colors duration-300 pb-20 relative animate-settle">
                 {/* Ambient orbs */}
