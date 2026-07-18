@@ -20,7 +20,7 @@ export default function MobileHeader() {
             {/* Compact strip — always visible */}
             <div className="flex items-center gap-3 p-3 px-4">
                 {/* Avatar */}
-                <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-mint-primary/30 shrink-0 shadow-md">
+                <div className="relative w-30 h-30 rounded-full overflow-hidden border-2 border-mint-primary/30 shrink-0 shadow-md">
                     {!imgError ? (
                         <Image
                             src="/assets/profile.jpg"
