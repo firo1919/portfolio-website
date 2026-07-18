@@ -125,12 +125,21 @@
   text-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
 }
 
+/* Theme change transition effect - only active during toggle */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition-property: color, background-color, border-color, fill, stroke, box-shadow !important;
+  transition-duration: 250ms !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
 /* Scrollbar Customization */
 body {
   background-color: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Scrollbars for webkit */

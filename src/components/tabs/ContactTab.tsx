@@ -7,6 +7,7 @@ import type { Map as LeafletMap } from "leaflet";
 import { Mail, Phone, Send, Paperclip, QrCode, X } from "lucide-react";
 import { toast } from "sonner";
 import TurnstileWidget from "@/components/TurnstileWidget";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function ContactTab() {
     const [formData, setFormData] = useState({
@@ -246,234 +247,242 @@ END:VCARD`;
         <div
             id="contact-panel"
             role="tabpanel"
-            className="flex flex-col gap-8 animate-tab-enter"
+            className="flex flex-col gap-12 animate-tab-enter"
         >
-            {/* Title */}
-            <section className="flex flex-col gap-4">
-                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
-                    Let&apos;s Connect
-                    <span className="absolute -bottom-1.5 left-0 w-16 h-1 rounded bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
-                </h1>
-            </section>
+            {/* Title & Map */}
+            <ScrollReveal delayMs={50}>
+                <div className="flex flex-col gap-6">
+                    <section className="flex flex-col gap-4">
+                        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight font-heading text-text-heading relative inline-block">
+                            Let&apos;s Connect
+                            <span className="absolute -bottom-1.5 left-0 w-16 h-1 rounded bg-linear-to-r from-mint-primary to-mint-secondary shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                        </h1>
+                    </section>
 
-            {/* Map Section */}
-            <div
-                ref={mapContainerRef}
-                className="w-full h-64 rounded-xl overflow-hidden border border-mint-primary/10 relative z-0 bg-bg-base"
-                style={{ minHeight: "260px" }}
-            />
+                    {/* Map Section */}
+                    <div
+                        ref={mapContainerRef}
+                        className="w-full h-64 rounded-xl overflow-hidden border border-mint-primary/10 relative z-0 bg-bg-base"
+                        style={{ minHeight: "260px" }}
+                    />
+                </div>
+            </ScrollReveal>
 
             {/* Contact Details & QR Code */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="p-4 rounded-xl bg-bg-base/20 border border-mint-primary/5 hover:border-mint-primary/20 transition-all duration-300 flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-mint-primary/10 flex items-center justify-center text-mint-light">
-                        <Phone size={18} />
-                    </div>
-                    <div>
-                        <div className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">
-                            Mobile
-                        </div>
-                        <div className="text-sm font-bold text-text-heading tracking-wide">
-                            +251 943102554
-                        </div>
-                    </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-bg-base/20 border border-mint-primary/5 hover:border-mint-primary/20 transition-all duration-300 flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-mint-primary/10 flex items-center justify-center text-mint-light">
-                        <Mail size={18} />
-                    </div>
-                    <div>
-                        <div className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">
-                            Email
-                        </div>
-                        <div className="text-sm font-bold text-text-heading">
-                            firomsassf@gmail.com
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    onClick={() => setShowQrModal(true)}
-                    className="p-4 rounded-xl bg-bg-base/20 border border-mint-primary/5 hover:border-mint-primary/20 transition-all duration-300 flex items-center gap-4 justify-between cursor-pointer group/qr"
-                >
-                    <div className="flex items-center gap-4">
+            <ScrollReveal delayMs={150}>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="p-4 rounded-xl bg-bg-base/20 border border-mint-primary/5 hover:border-mint-primary/20 transition-all duration-300 flex items-center gap-4">
                         <div className="w-10 h-10 rounded-lg bg-mint-primary/10 flex items-center justify-center text-mint-light">
-                            <QrCode size={18} />
+                            <Phone size={18} />
                         </div>
                         <div>
                             <div className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">
-                                Contact QR
+                                Mobile
                             </div>
-                            <div className="text-xs font-semibold text-text-body group-hover/qr:text-mint-light transition-colors">
-                                Scan to save
+                            <div className="text-sm font-bold text-text-heading tracking-wide">
+                                +251 943102554
                             </div>
                         </div>
                     </div>
-                    <div className="w-10 h-10 border border-mint-primary/20 rounded bg-white flex items-center justify-center p-0.5 shadow-md group-hover/qr:border-mint-primary/50 transition-all overflow-hidden relative">
-                        <Image
-                            src="/assets/contact-qr.png"
-                            alt="Contact QR Preview"
-                            fill
-                            sizes="40px"
-                            className="object-cover"
-                        />
+
+                    <div className="p-4 rounded-xl bg-bg-base/20 border border-mint-primary/5 hover:border-mint-primary/20 transition-all duration-300 flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-lg bg-mint-primary/10 flex items-center justify-center text-mint-light">
+                            <Mail size={18} />
+                        </div>
+                        <div>
+                            <div className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">
+                                Email
+                            </div>
+                            <div className="text-sm font-bold text-text-heading">
+                                firomsassf@gmail.com
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        onClick={() => setShowQrModal(true)}
+                        className="p-4 rounded-xl bg-bg-base/20 border border-mint-primary/5 hover:border-mint-primary/20 transition-all duration-300 flex items-center gap-4 justify-between cursor-pointer group/qr"
+                    >
+                        <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-lg bg-mint-primary/10 flex items-center justify-center text-mint-light">
+                                <QrCode size={18} />
+                            </div>
+                            <div>
+                                <div className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">
+                                    Contact QR
+                                </div>
+                                <div className="text-xs font-semibold text-text-body group-hover/qr:text-mint-light transition-colors">
+                                    Scan to save
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-10 h-10 border border-mint-primary/20 rounded bg-white flex items-center justify-center p-0.5 shadow-md group-hover/qr:border-mint-primary/50 transition-all overflow-hidden relative">
+                            <Image
+                                src="/assets/contact-qr.png"
+                                alt="Contact QR Preview"
+                                fill
+                                sizes="40px"
+                                className="object-cover"
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </ScrollReveal>
 
             {/* Contact Form Section */}
-            <section className="flex flex-col gap-4">
-                <h2 className="text-lg md:text-xl font-bold font-heading text-text-heading">
-                    Contact Form
-                </h2>
-                <form
-                    onSubmit={handleSubmit}
-                    className="flex flex-col gap-4 p-6 rounded-xl bg-bg-base/20 border border-mint-primary/5"
-                >
-                    {/* Honeypot field (hidden from screen reader and users) */}
-                    <input
-                        type="text"
-                        name="hp_field"
-                        id="hp_field"
-                        value={formData.hp_field}
-                        onChange={handleInputChange}
-                        tabIndex={-1}
-                        autoComplete="off"
-                        className="sr-only"
-                        aria-hidden="true"
-                    />
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {/* Full Name */}
-                        <div className="flex flex-col gap-1.5">
-                            <label
-                                htmlFor="name"
-                                className="text-xs font-semibold text-text-muted"
-                            >
-                                Full Name
-                            </label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                required
-                                value={formData.name}
-                                onChange={handleInputChange}
-                                placeholder="Your name"
-                                className="px-4 py-3 rounded-lg bg-bg-input border border-mint-primary/10 text-text-heading text-sm focus:border-mint-primary/40 focus:outline-none focus:ring-1 focus:ring-mint-primary/20 transition-all"
-                            />
-                        </div>
-
-                        {/* Email Address */}
-                        <div className="flex flex-col gap-1.5">
-                            <label
-                                htmlFor="email"
-                                className="text-xs font-semibold text-text-muted"
-                            >
-                                Email Address
-                            </label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                required
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                placeholder="your.email@example.com"
-                                className="px-4 py-3 rounded-lg bg-bg-input border border-mint-primary/10 text-text-heading text-sm focus:border-mint-primary/40 focus:outline-none focus:ring-1 focus:ring-mint-primary/20 transition-all"
-                            />
-                        </div>
-
-                        {/* Phone Number */}
-                        <div className="flex flex-col gap-1.5">
-                            <label
-                                htmlFor="phone"
-                                className="text-xs font-semibold text-text-muted"
-                            >
-                                Phone Number (Optional)
-                            </label>
-                            <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleInputChange}
-                                placeholder="+251 900 000 000"
-                                className="px-4 py-3 rounded-lg bg-bg-input border border-mint-primary/10 text-text-heading text-sm focus:border-mint-primary/40 focus:outline-none focus:ring-1 focus:ring-mint-primary/20 transition-all"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Message */}
-                    <div className="flex flex-col gap-1.5">
-                        <label
-                            htmlFor="message"
-                            className="text-xs font-semibold text-text-muted"
-                        >
-                            Your Message
-                        </label>
-                        <textarea
-                            id="message"
-                            name="message"
-                            required
-                            rows={4}
-                            value={formData.message}
-                            onChange={handleInputChange}
-                            placeholder="What would you like to build?"
-                            className="px-4 py-3 rounded-lg bg-bg-input border border-mint-primary/10 text-text-heading text-sm focus:border-mint-primary/40 focus:outline-none focus:ring-1 focus:ring-mint-primary/20 transition-all resize-none"
-                        />
-                    </div>
-
-                    {/* Attach PDF (Optional) */}
-                    <div className="flex items-center justify-between gap-2">
-                        <label className="w-fit flex items-center gap-2 px-4 py-2.5 rounded-lg border border-dashed border-mint-primary/20 hover:border-mint-primary/50 text-text-muted hover:text-mint-light text-xs font-semibold cursor-pointer transition-all duration-300">
-                            <Paperclip size={14} />
-                            <span>
-                                {file ? file.name : "Attach PDF (Optional)"}
-                            </span>
-                            <input
-                                type="file"
-                                accept=".pdf"
-                                className="hidden"
-                                onChange={handleFileChange}
-                            />
-                        </label>
-                        <span className="text-[10px] text-text-muted font-medium">
-                            Only PDF files up to 1 MB
-                        </span>
-                    </div>
-
-                    {/* Cloudflare Turnstile Integration */}
-                    {turnstileSiteKey && (
-                        <div className="flex justify-start my-1 flex-col">
-                            <span className="text-xs font-semibold text-text-muted mb-1">
-                                Human Verification
-                            </span>
-                            <TurnstileWidget
-                                siteKey={turnstileSiteKey}
-                                onVerify={handleTurnstileVerify}
-                            />
-                        </div>
-                    )}
-
-                    {/* Submit Message */}
-                    <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="flex items-center justify-center gap-2 py-3.5 px-6 rounded-lg bg-linear-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-sm tracking-wide hover:opacity-95 hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed transition-all duration-300 mt-2 shadow-[0_0_15px_rgba(16,185,129,0.1)] w-full sm:w-fit sm:self-end"
+            <ScrollReveal delayMs={250}>
+                <section className="flex flex-col gap-4">
+                    <h2 className="text-lg md:text-xl font-bold font-heading text-text-heading">
+                        Contact Form
+                    </h2>
+                    <form
+                        onSubmit={handleSubmit}
+                        className="flex flex-col gap-4 p-6 rounded-xl bg-bg-base/20 border border-mint-primary/5"
                     >
-                        {isSubmitting ? (
-                            <span className="w-5 h-5 border-2 border-bg-base border-t-transparent rounded-full animate-spin" />
-                        ) : (
-                            <>
-                                <Send size={15} />
-                                <span>Send Message</span>
-                            </>
+                        {/* Honeypot field (hidden from screen reader and users) */}
+                        <input
+                            type="text"
+                            name="hp_field"
+                            id="hp_field"
+                            value={formData.hp_field}
+                            onChange={handleInputChange}
+                            tabIndex={-1}
+                            autoComplete="off"
+                            className="sr-only"
+                            aria-hidden="true"
+                        />
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {/* Full Name */}
+                            <div className="flex flex-col gap-1.5">
+                                <label
+                                    htmlFor="name"
+                                    className="text-xs font-semibold text-text-muted"
+                                >
+                                    Full Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    required
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    placeholder="Your name"
+                                    className="px-4 py-3 rounded-lg bg-bg-input border border-mint-primary/10 text-text-heading text-sm focus:border-mint-primary/40 focus:outline-none focus:ring-1 focus:ring-mint-primary/20 transition-all"
+                                />
+                            </div>
+
+                            {/* Email Address */}
+                            <div className="flex flex-col gap-1.5">
+                                <label
+                                    htmlFor="email"
+                                    className="text-xs font-semibold text-text-muted"
+                                >
+                                    Email Address
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    required
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    placeholder="your.email@example.com"
+                                    className="px-4 py-3 rounded-lg bg-bg-input border border-mint-primary/10 text-text-heading text-sm focus:border-mint-primary/40 focus:outline-none focus:ring-1 focus:ring-mint-primary/20 transition-all"
+                                />
+                            </div>
+
+                            {/* Phone Number */}
+                            <div className="flex flex-col gap-1.5">
+                                <label
+                                    htmlFor="phone"
+                                    className="text-xs font-semibold text-text-muted"
+                                >
+                                    Phone Number (Optional)
+                                </label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleInputChange}
+                                    placeholder="+251 900 000 000"
+                                    className="px-4 py-3 rounded-lg bg-bg-input border border-mint-primary/10 text-text-heading text-sm focus:border-mint-primary/40 focus:outline-none focus:ring-1 focus:ring-mint-primary/20 transition-all"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Message */}
+                        <div className="flex flex-col gap-1.5">
+                            <label
+                                htmlFor="message"
+                                className="text-xs font-semibold text-text-muted"
+                            >
+                                Your Message
+                            </label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                required
+                                rows={4}
+                                value={formData.message}
+                                onChange={handleInputChange}
+                                placeholder="What would you like to build?"
+                                className="px-4 py-3 rounded-lg bg-bg-input border border-mint-primary/10 text-text-heading text-sm focus:border-mint-primary/40 focus:outline-none focus:ring-1 focus:ring-mint-primary/20 transition-all resize-none"
+                            />
+                        </div>
+
+                        {/* Attach PDF (Optional) */}
+                        <div className="flex items-center justify-between gap-2">
+                            <label className="w-fit flex items-center gap-2 px-4 py-2.5 rounded-lg border border-dashed border-mint-primary/20 hover:border-mint-primary/50 text-text-muted hover:text-mint-light text-xs font-semibold cursor-pointer transition-all duration-300">
+                                <Paperclip size={14} />
+                                <span>
+                                    {file ? file.name : "Attach PDF (Optional)"}
+                                </span>
+                                <input
+                                    type="file"
+                                    accept=".pdf"
+                                    className="hidden"
+                                    onChange={handleFileChange}
+                                />
+                            </label>
+                            <span className="text-[10px] text-text-muted font-medium">
+                                Only PDF files up to 1 MB
+                            </span>
+                        </div>
+
+                        {/* Cloudflare Turnstile Integration */}
+                        {turnstileSiteKey && (
+                            <div className="flex justify-start my-1 flex-col">
+                                <span className="text-xs font-semibold text-text-muted mb-1">
+                                    Human Verification
+                                </span>
+                                <TurnstileWidget
+                                    siteKey={turnstileSiteKey}
+                                    onVerify={handleTurnstileVerify}
+                                />
+                            </div>
                         )}
-                    </button>
-                </form>
-            </section>
+
+                        {/* Submit Message */}
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="flex items-center justify-center gap-2 py-3.5 px-6 rounded-lg bg-linear-to-r from-mint-primary to-mint-secondary text-bg-base font-bold text-sm tracking-wide hover:opacity-95 hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed transition-all duration-300 mt-2 shadow-[0_0_15px_rgba(16,185,129,0.1)] w-full sm:w-fit sm:self-end"
+                        >
+                            {isSubmitting ? (
+                                <span className="w-5 h-5 border-2 border-bg-base border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                                <>
+                                    <Send size={15} />
+                                    <span>Send Message</span>
+                                </>
+                            )}
+                        </button>
+                    </form>
+                </section>
+            </ScrollReveal>
 
             {/* QR Modal */}
             {showQrModal &&
