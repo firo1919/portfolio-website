@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 export default function MobileHeader() {
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
     const [imgError, setImgError] = useState(false);
 
     return (
